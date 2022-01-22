@@ -34,30 +34,6 @@ var HTML5Audio = (function () {
 
 /***/ }),
 
-/***/ "./src/behaviors/behaviors.ts":
-/*!************************************!*\
-  !*** ./src/behaviors/behaviors.ts ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-var behaviors;
-behaviors['log'] = function (actor, game) {
-    console.log('foo');
-};
-behaviors['texture'] = function (actor, game) {
-    if (typeof actor.properties.y == 'number' && typeof actor.properties.x == 'number' && typeof actor.properties.texture == 'string') {
-        game.video.drawImage(actor.properties.x, actor.properties.y, actor.properties.texture);
-    }
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (behaviors);
-
-
-/***/ }),
-
 /***/ "./src/game/html5game.ts":
 /*!*******************************!*\
   !*** ./src/game/html5game.ts ***!
@@ -71,7 +47,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _video_html5video__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../video/html5video */ "./src/video/html5video.ts");
 /* harmony import */ var _audio_html5audio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../audio/html5audio */ "./src/audio/html5audio.ts");
 /* harmony import */ var _input_html5input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../input/html5input */ "./src/input/html5input.ts");
-/* harmony import */ var _behaviors_behaviors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../behaviors/behaviors */ "./src/behaviors/behaviors.ts");
+/* harmony import */ var _stage_stage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../stage/stage */ "./src/stage/stage.ts");
 
 
 
@@ -81,16 +57,10 @@ var HTML5Game = (function () {
         this.video = new _video_html5video__WEBPACK_IMPORTED_MODULE_0__["default"](1280, 720);
         this.audio = new _audio_html5audio__WEBPACK_IMPORTED_MODULE_1__["default"]();
         this.input = new _input_html5input__WEBPACK_IMPORTED_MODULE_2__["default"]();
+        this.stage = new _stage_stage__WEBPACK_IMPORTED_MODULE_3__["default"]('/stages/stage1.svg');
         setInterval(this.main, 1000 / 60);
     }
-    HTML5Game.prototype.loadStage = function () {
-    };
     HTML5Game.prototype.main = function () {
-        this.stage.forEach(function (actor) {
-            actor.behaviors.forEach(function (behavior) {
-                _behaviors_behaviors__WEBPACK_IMPORTED_MODULE_3__["default"][behavior];
-            });
-        });
     };
     return HTML5Game;
 }());
@@ -115,6 +85,33 @@ var HTML5Input = (function () {
     return HTML5Input;
 }());
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HTML5Input);
+
+
+/***/ }),
+
+/***/ "./src/stage/stage.ts":
+/*!****************************!*\
+  !*** ./src/stage/stage.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var Stage = (function () {
+    function Stage(file) {
+        var xhttp = new XMLHttpRequest();
+        console.log(file);
+        xhttp.onreadystatechange = function () {
+            console.log(xhttp);
+        };
+        xhttp.open('GET', file, true);
+        console.log('bar');
+    }
+    return Stage;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Stage);
 
 
 /***/ }),

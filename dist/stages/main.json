@@ -1,6 +1,0 @@
-{
-    "name":"main",
-    "actors":[
-        {"name":"ball","properties":{"x":1,"y":2},"behaviors":["texture"]}
-    ]
-}

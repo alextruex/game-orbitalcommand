@@ -18,9 +18,7 @@ class HTML5Game{
         this.audio = new HTML5Audio();
         this.input = new HTML5Input();
         this.data = new HTML5Data();
-        this.stage = [];
-
-        this.data.loadStage('stages/stage1.svg');
+        this.stage = this.data.loadStage('stages/stage1.svg');
 
         /*
         this.stage.push({id:'rect',properties:{x:0,y:0,w:64,h:64},behaviors:['rectangle']});

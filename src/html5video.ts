@@ -27,8 +27,13 @@ class HTML5Video{
         this.ctx.drawImage(this.images[img],x,y);
     }
 
-    resizeCanvas(){
+    drawRect(x:number,y:number,w:number,h:number){
+        this.ctx.fillStyle = '#FF0000';
+        this.ctx.fillRect(x,y,w,h);
+    }
 
+    resizeCanvas(){
+        
     }
 
     

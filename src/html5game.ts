@@ -19,14 +19,8 @@ class HTML5Game{
         this.input = new HTML5Input();
         this.data = new HTML5Data();
         this.stage = [];
-        this.loadStage('stages/title.svg');
-        
-
-        /*
-        this.stage.push({id:'rect',properties:{x:0,y:0,w:64,h:64},behaviors:['rectangle']});
-        this.stage.push({id:'ball',properties:{x:0,y:0,texture:'/images/sprites/objects/2ball.png'},behaviors:['texture']});
-        this.stage.push({id:'player',properties:{x:0,y:0,texture:'/images/sprites/objects/1ball.png'},behaviors:['player','texture']});
-        */
+        this.state = {};
+        this.loadStage('stages/title.xml');
 
         setInterval(() => {this.main()}, 1000);
     }
@@ -36,12 +30,9 @@ class HTML5Game{
     }
 
     main(){
-        console.log(this.stage);
         this.video.clear();
         this.stage.forEach((actor) => {
-            actor.behaviors.forEach((behavior) => {
-                if(typeof behaviors[behavior] == 'function') behaviors[behavior](actor,this);
-            });
+            behaviors[actor.name](actor,this);
         });
     }
 }

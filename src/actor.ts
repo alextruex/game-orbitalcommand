@@ -1,7 +1,6 @@
 interface Actor{
-    id:string;
+    name:string;
     properties:Record<string,string|number>;
-    behaviors:Array<string>;
 }
 
 export default Actor;

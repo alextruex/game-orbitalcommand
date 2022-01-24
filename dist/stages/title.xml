@@ -1,0 +1,4 @@
+<stage>
+    <image x="640" y="360" img="images/backgrounds/titlescreen.png"></image>
+    <image x="640" y="360" img="images/hud/startbutton.png"></image>
+</stage>

@@ -17,7 +17,7 @@ class HTML5Video{
         this.canvas.style.bottom = '0px';
         this.canvas.style.margin = 'auto';
 
-        this.ctx = this.canvas.getContext('2d');
+        this.ctx = <CanvasRenderingContext2D>this.canvas.getContext('2d');
         document.body.appendChild(this.canvas);
         document.body.style.backgroundColor = '#000000';
         document.body.style.margin = '0px';
@@ -29,17 +29,28 @@ class HTML5Video{
     }
     
     drawImage(x:number,y:number,img:string){
-        console.log(img);
         if (typeof this.images[img] == "undefined"){
             this.images[img] = new Image();
             this.images[img].src = img;
         }
-        this.ctx.drawImage(this.images[img],x,y);
+        let image = this.images[img];
+
+        this.ctx.drawImage(image,x - image.width/2,y - image.height/2);
     }
 
     drawRect(x:number,y:number,w:number,h:number){
         this.ctx.fillStyle = '#FF0000';
         this.ctx.fillRect(x,y,w,h);
+    }
+
+    debugText(text:string){
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'top';
+        this.ctx.font = 'bold 32px sans-serif';
+        this.ctx.fillStyle = '#000000';
+        this.ctx.fillText(text,644,20);
+        this.ctx.fillStyle = '#FFFFFF';
+        this.ctx.fillText(text,640,16);
     }
 
     resizeCanvas(){

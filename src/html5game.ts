@@ -28,18 +28,19 @@ class HTML5Game{
         this.stage.push({id:'player',properties:{x:0,y:0,texture:'/images/sprites/objects/1ball.png'},behaviors:['player','texture']});
         */
 
-        setInterval(() => {this.main()}, 1000/30);
+        setInterval(() => {this.main()}, 1000);
     }
 
     loadStage(file:string){
-        this.data.fetchStage(file,this.stage);
+        this.data.fetchStage(file,this);
     }
 
     main(){
+        console.log(this.stage);
         this.video.clear();
         this.stage.forEach((actor) => {
             actor.behaviors.forEach((behavior) => {
-                behaviors[behavior](actor,this);
+                if(typeof behaviors[behavior] == 'function') behaviors[behavior](actor,this);
             });
         });
     }

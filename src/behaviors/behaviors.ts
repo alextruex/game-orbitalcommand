@@ -15,9 +15,9 @@ let behaviors: Record<string, Function> = {
     'rectangle': function(actor:Actor,game:HTML5Game){
         if (typeof actor.properties.x == 'number' &&
         typeof actor.properties.y == 'number' &&
-        typeof actor.properties.w == 'number' &&
-        typeof actor.properties.h == 'number')
-        game.video.drawRect(actor.properties.x,actor.properties.y,actor.properties.w,actor.properties.h);
+        typeof actor.properties.width == 'number' &&
+        typeof actor.properties.height == 'number')
+        game.video.drawRect(actor.properties.x,actor.properties.y,actor.properties.width,actor.properties.height);
     },
     'player':function(actor:Actor,game:HTML5Game){
         if(game.input.poll('ArrowRight') && typeof actor.properties.x == 'number') actor.properties.x += 4;

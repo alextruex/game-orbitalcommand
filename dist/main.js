@@ -2,10 +2,50 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/audio/html5audio.ts":
-/*!*********************************!*\
-  !*** ./src/audio/html5audio.ts ***!
-  \*********************************/
+/***/ "./src/behaviors/behaviors.ts":
+/*!************************************!*\
+  !*** ./src/behaviors/behaviors.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var behaviors = {
+    'log': function (actor, game) {
+        console.log('foo');
+    },
+    'texture': function (actor, game) {
+        if (typeof actor.properties.x == 'number' &&
+            typeof actor.properties.y == 'number' &&
+            typeof actor.properties.texture == 'string') {
+            game.video.drawImage(actor.properties.x, actor.properties.y, actor.properties.texture);
+        }
+    },
+    'rectangle': function (actor, game) {
+        if (typeof actor.properties.x == 'number' &&
+            typeof actor.properties.y == 'number' &&
+            typeof actor.properties.width == 'number' &&
+            typeof actor.properties.height == 'number')
+            game.video.drawRect(actor.properties.x, actor.properties.y, actor.properties.width, actor.properties.height);
+    },
+    'player': function (actor, game) {
+        if (game.input.poll('ArrowRight') && typeof actor.properties.x == 'number')
+            actor.properties.x += 4;
+        if (game.input.poll('ArrowLeft') && typeof actor.properties.x == 'number')
+            actor.properties.x -= 4;
+    }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (behaviors);
+
+
+/***/ }),
+
+/***/ "./src/html5audio.ts":
+/*!***************************!*\
+  !*** ./src/html5audio.ts ***!
+  \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -34,33 +74,102 @@ var HTML5Audio = (function () {
 
 /***/ }),
 
-/***/ "./src/game/html5game.ts":
-/*!*******************************!*\
-  !*** ./src/game/html5game.ts ***!
-  \*******************************/
+/***/ "./src/html5data.ts":
+/*!**************************!*\
+  !*** ./src/html5data.ts ***!
+  \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _video_html5video__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../video/html5video */ "./src/video/html5video.ts");
-/* harmony import */ var _audio_html5audio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../audio/html5audio */ "./src/audio/html5audio.ts");
-/* harmony import */ var _input_html5input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../input/html5input */ "./src/input/html5input.ts");
-/* harmony import */ var _stage_stage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../stage/stage */ "./src/stage/stage.ts");
+var HTML5Data = (function () {
+    function HTML5Data() {
+    }
+    HTML5Data.prototype.fetchStage = function (file, game) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.addEventListener('load', function () {
+            var dom = new DOMParser();
+            var doc = dom.parseFromString(xhttp.responseText, 'text/xml');
+            var groups = doc.querySelectorAll('g');
+            var newStage = [];
+            groups.forEach(function (element) {
+                var actor = { id: '', properties: {}, behaviors: [] };
+                var text = element.querySelector('text').textContent;
+                var text2 = text.split('&');
+                var rect = element.querySelectorAll('rect');
+                rect.forEach(function (index) {
+                    actor.properties.x = parseInt(index.attributes.getNamedItem('x').value);
+                    actor.properties.y = parseInt(index.attributes.getNamedItem('y').value);
+                    actor.properties.width = parseInt(index.attributes.getNamedItem('width').value);
+                    actor.properties.height = parseInt(index.attributes.getNamedItem('height').value);
+                });
+                actor.id = text2[0];
+                var properties = text2[1].split(',');
+                properties.forEach(function (property) {
+                    var property2 = property.split(':');
+                    actor.properties[property2[0], property[1]];
+                });
+                actor.behaviors = text2[2].split(',');
+                newStage.push(actor);
+            });
+            game.stage = newStage;
+        });
+        xhttp.open("GET", file);
+        xhttp.send();
+    };
+    return HTML5Data;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HTML5Data);
+
+
+/***/ }),
+
+/***/ "./src/html5game.ts":
+/*!**************************!*\
+  !*** ./src/html5game.ts ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _html5video__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./html5video */ "./src/html5video.ts");
+/* harmony import */ var _html5audio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./html5audio */ "./src/html5audio.ts");
+/* harmony import */ var _html5input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./html5input */ "./src/html5input.ts");
+/* harmony import */ var _html5data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./html5data */ "./src/html5data.ts");
+/* harmony import */ var _behaviors_behaviors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./behaviors/behaviors */ "./src/behaviors/behaviors.ts");
+
 
 
 
 
 var HTML5Game = (function () {
     function HTML5Game() {
-        this.video = new _video_html5video__WEBPACK_IMPORTED_MODULE_0__["default"](1280, 720);
-        this.audio = new _audio_html5audio__WEBPACK_IMPORTED_MODULE_1__["default"]();
-        this.input = new _input_html5input__WEBPACK_IMPORTED_MODULE_2__["default"]();
-        this.stage = new _stage_stage__WEBPACK_IMPORTED_MODULE_3__["default"]('/stages/stage1.svg');
-        setInterval(this.main, 1000 / 60);
+        var _this = this;
+        this.video = new _html5video__WEBPACK_IMPORTED_MODULE_0__["default"](1280, 720);
+        this.audio = new _html5audio__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        this.input = new _html5input__WEBPACK_IMPORTED_MODULE_2__["default"]();
+        this.data = new _html5data__WEBPACK_IMPORTED_MODULE_3__["default"]();
+        this.stage = [];
+        this.loadStage('stages/stage1.svg');
+        setInterval(function () { _this.main(); }, 1000);
     }
+    HTML5Game.prototype.loadStage = function (file) {
+        this.data.fetchStage(file, this);
+    };
     HTML5Game.prototype.main = function () {
+        var _this = this;
+        console.log(this.stage);
+        this.video.clear();
+        this.stage.forEach(function (actor) {
+            actor.behaviors.forEach(function (behavior) {
+                if (typeof _behaviors_behaviors__WEBPACK_IMPORTED_MODULE_4__["default"][behavior] == 'function')
+                    _behaviors_behaviors__WEBPACK_IMPORTED_MODULE_4__["default"][behavior](actor, _this);
+            });
+        });
     };
     return HTML5Game;
 }());
@@ -69,10 +178,10 @@ var HTML5Game = (function () {
 
 /***/ }),
 
-/***/ "./src/input/html5input.ts":
-/*!*********************************!*\
-  !*** ./src/input/html5input.ts ***!
-  \*********************************/
+/***/ "./src/html5input.ts":
+/*!***************************!*\
+  !*** ./src/html5input.ts ***!
+  \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -81,7 +190,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var HTML5Input = (function () {
     function HTML5Input() {
+        var _this = this;
+        this.map = {};
+        document.addEventListener('keydown', function (e) {
+            _this.map[e.key] = 1;
+        });
+        document.addEventListener('keyup', function (e) {
+            _this.map[e.key] = 0;
+        });
     }
+    HTML5Input.prototype.poll = function (key) {
+        return this.map[key];
+    };
     return HTML5Input;
 }());
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HTML5Input);
@@ -89,37 +209,10 @@ var HTML5Input = (function () {
 
 /***/ }),
 
-/***/ "./src/stage/stage.ts":
-/*!****************************!*\
-  !*** ./src/stage/stage.ts ***!
-  \****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-var Stage = (function () {
-    function Stage(file) {
-        var xhttp = new XMLHttpRequest();
-        console.log(file);
-        xhttp.onreadystatechange = function () {
-            console.log(xhttp);
-        };
-        xhttp.open('GET', file, true);
-        console.log('bar');
-    }
-    return Stage;
-}());
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Stage);
-
-
-/***/ }),
-
-/***/ "./src/video/html5video.ts":
-/*!*********************************!*\
-  !*** ./src/video/html5video.ts ***!
-  \*********************************/
+/***/ "./src/html5video.ts":
+/*!***************************!*\
+  !*** ./src/html5video.ts ***!
+  \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -146,6 +239,10 @@ var HTML5Video = (function () {
             this.images[img].src = img;
         }
         this.ctx.drawImage(this.images[img], x, y);
+    };
+    HTML5Video.prototype.drawRect = function (x, y, w, h) {
+        this.ctx.fillStyle = '#FF0000';
+        this.ctx.fillRect(x, y, w, h);
     };
     HTML5Video.prototype.resizeCanvas = function () {
     };
@@ -219,9 +316,9 @@ var __webpack_exports__ = {};
   !*** ./src/main.ts ***!
   \*********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _game_html5game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game/html5game */ "./src/game/html5game.ts");
+/* harmony import */ var _html5game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./html5game */ "./src/html5game.ts");
 
-new _game_html5game__WEBPACK_IMPORTED_MODULE_0__["default"]();
+new _html5game__WEBPACK_IMPORTED_MODULE_0__["default"]();
 
 })();
 

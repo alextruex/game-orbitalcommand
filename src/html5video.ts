@@ -20,6 +20,7 @@ class HTML5Video{
     }
     
     drawImage(x:number,y:number,img:string){
+        console.log(img);
         if (typeof this.images[img] == "undefined"){
             this.images[img] = new Image();
             this.images[img].src = img;

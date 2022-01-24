@@ -18,12 +18,15 @@ class HTML5Data{
                 let text = element.querySelector('text').textContent;
                 let text2 = text.split('&');
 
-                let rect = element.querySelectorAll('rect');
-                rect.forEach((index) => {
+                element.querySelectorAll('rect').forEach((index) => {
                     actor.properties.x = parseInt(index.attributes.getNamedItem('x').value);
                     actor.properties.y = parseInt(index.attributes.getNamedItem('y').value);
                     actor.properties.width = parseInt(index.attributes.getNamedItem('width').value);
                     actor.properties.height = parseInt(index.attributes.getNamedItem('height').value);
+                });
+
+                element.querySelectorAll('image').forEach((index) => {
+                    actor.properties.image = index.attributes.getNamedItem('xlink:href').value.replace('../','');
                 });
                 
                 actor.id = text2[0];

@@ -19,7 +19,7 @@ class HTML5Game{
         this.input = new HTML5Input();
         this.data = new HTML5Data();
         this.stage = [];
-        this.loadStage('stages/stage1.svg');
+        this.loadStage('stages/title.svg');
         
 
         /*

@@ -19,8 +19,8 @@ var behaviors = {
     'texture': function (actor, game) {
         if (typeof actor.properties.x == 'number' &&
             typeof actor.properties.y == 'number' &&
-            typeof actor.properties.texture == 'string') {
-            game.video.drawImage(actor.properties.x, actor.properties.y, actor.properties.texture);
+            typeof actor.properties.image == 'string') {
+            game.video.drawImage(actor.properties.x, actor.properties.y, actor.properties.image);
         }
     },
     'rectangle': function (actor, game) {
@@ -98,12 +98,14 @@ var HTML5Data = (function () {
                 var actor = { id: '', properties: {}, behaviors: [] };
                 var text = element.querySelector('text').textContent;
                 var text2 = text.split('&');
-                var rect = element.querySelectorAll('rect');
-                rect.forEach(function (index) {
+                element.querySelectorAll('rect').forEach(function (index) {
                     actor.properties.x = parseInt(index.attributes.getNamedItem('x').value);
                     actor.properties.y = parseInt(index.attributes.getNamedItem('y').value);
                     actor.properties.width = parseInt(index.attributes.getNamedItem('width').value);
                     actor.properties.height = parseInt(index.attributes.getNamedItem('height').value);
+                });
+                element.querySelectorAll('image').forEach(function (index) {
+                    actor.properties.image = index.attributes.getNamedItem('xlink:href').value.replace('../', '');
                 });
                 actor.id = text2[0];
                 var properties = text2[1].split(',');
@@ -154,7 +156,7 @@ var HTML5Game = (function () {
         this.input = new _html5input__WEBPACK_IMPORTED_MODULE_2__["default"]();
         this.data = new _html5data__WEBPACK_IMPORTED_MODULE_3__["default"]();
         this.stage = [];
-        this.loadStage('stages/stage1.svg');
+        this.loadStage('stages/title.svg');
         setInterval(function () { _this.main(); }, 1000);
     }
     HTML5Game.prototype.loadStage = function (file) {
@@ -234,6 +236,7 @@ var HTML5Video = (function () {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     };
     HTML5Video.prototype.drawImage = function (x, y, img) {
+        console.log(img);
         if (typeof this.images[img] == "undefined") {
             this.images[img] = new Image();
             this.images[img].src = img;

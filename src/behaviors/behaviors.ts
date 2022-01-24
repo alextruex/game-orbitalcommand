@@ -8,8 +8,8 @@ let behaviors: Record<string, Function> = {
     'texture': function (actor: Actor, game: HTML5Game) {
         if (typeof actor.properties.x == 'number' &&
             typeof actor.properties.y == 'number' &&
-            typeof actor.properties.texture == 'string') {
-            game.video.drawImage(actor.properties.x, actor.properties.y, actor.properties.texture);
+            typeof actor.properties.image == 'string') {
+            game.video.drawImage(actor.properties.x, actor.properties.y, actor.properties.image);
         }
     },
     'rectangle': function(actor:Actor,game:HTML5Game){

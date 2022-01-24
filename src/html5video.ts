@@ -6,13 +6,22 @@ class HTML5Video{
         this.canvas = document.createElement('canvas');
         this.canvas.width = width;
         this.canvas.height = height;
-        this.canvas.style.border = '1px solid white';
+        this.canvas.style.width = '100vw';
+        this.canvas.style.height = 'height: 56.25vw';
+        this.canvas.style.maxHeight = '100vh'
+        this.canvas.style.maxWidth = '177.78vh';
+        this.canvas.style.position = 'absolute';
+        this.canvas.style.left = '0px';
+        this.canvas.style.right = '0px';
+        this.canvas.style.top = '0px';
+        this.canvas.style.bottom = '0px';
+        this.canvas.style.margin = 'auto';
+
         this.ctx = this.canvas.getContext('2d');
         document.body.appendChild(this.canvas);
         document.body.style.backgroundColor = '#000000';
-
+        document.body.style.margin = '0px';
         this.images = {};
-
     }
 
     clear(){

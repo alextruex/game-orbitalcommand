@@ -16,10 +16,13 @@ class HTML5Video{
         this.canvas.style.top = '0px';
         this.canvas.style.bottom = '0px';
         this.canvas.style.margin = 'auto';
+        this.canvas.id = "gameCanvas";
 
         this.ctx = <CanvasRenderingContext2D>this.canvas.getContext('2d');
         document.body.appendChild(this.canvas);
         document.body.style.backgroundColor = '#000000';
+        document.body.style.backgroundImage = 'url("images/backgrounds/wallpaper.png")';
+        document.body.style.backgroundSize = 'cover';
         document.body.style.margin = '0px';
         this.images = {};
     }
@@ -34,8 +37,7 @@ class HTML5Video{
             this.images[img].src = img;
         }
         let image = this.images[img];
-
-        this.ctx.drawImage(image,x - image.width/2,y - image.height/2);
+        this.ctx.drawImage(image,x,y);
     }
 
     drawRect(x:number,y:number,w:number,h:number){

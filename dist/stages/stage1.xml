@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
 <stage>
     <image x="0" y="0" img="images/backgrounds/titlescreen.png"></image>
-    <startbutton></startbutton>
 </stage>

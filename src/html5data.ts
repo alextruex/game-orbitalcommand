@@ -1,4 +1,3 @@
-import Actor from './actor';
 import HTML5Game from './html5game';
 
 class HTML5Data{
@@ -6,22 +5,23 @@ class HTML5Data{
         
     }
 
-    fetchStage(file:string,game:HTML5Game){
+    loadStage(file:string,game:HTML5Game){
         let xhttp = new XMLHttpRequest();
         xhttp.addEventListener('load', () => {
             let dom = new DOMParser();
             let doc = dom.parseFromString(xhttp.responseText,'text/xml');
-            let newStage:Array<Actor> = [];
+            console.log(doc);
+            let newStage:Array<Record<string,string|number>> = [];
             let actors = doc.firstElementChild?.children;
             
             if(typeof actors != 'undefined') for(let i = 0; i < actors.length; i++){
-                let newActor:Actor = {name:'',properties:{}};
+                let newActor:Record<string,string|number> = {};
                 newActor.name = actors[i].nodeName;
                 for(let j = 0; j < actors[i].attributes.length; j++){
                     let key = actors[i].attributes[j].nodeName;
                     let value = actors[i].attributes[j].nodeValue;
                     if(typeof key == 'string' && typeof value == 'string' || typeof value == 'number'){
-                        newActor.properties[key] = value;
+                        newActor[key] = value;
                     }
                 }
                 newStage.push(newActor);

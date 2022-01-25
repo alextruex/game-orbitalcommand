@@ -2,7 +2,6 @@ import HTML5Video from './html5video';
 import HTML5Audio from './html5audio';
 import HTML5Input from './html5input';
 import HTML5Data from './html5data';
-import Actor from './actor';
 import behaviors from './behaviors/behaviors';
 
 class HTML5Game{
@@ -10,8 +9,7 @@ class HTML5Game{
     audio:HTML5Audio;
     input:HTML5Input;
     data:HTML5Data;
-    state:Record<string,string|number>;
-    stage:Array<Actor>;
+    stage:Array<Record<string,string|number>>;
 
     constructor(){
         this.video = new HTML5Video(1280,720);
@@ -19,21 +17,18 @@ class HTML5Game{
         this.input = new HTML5Input();
         this.data = new HTML5Data();
         this.stage = [];
-        this.state = {};
-        this.loadStage('stages/title.xml');
+        this.data.loadStage('stages/title.xml',this);
 
-        setInterval(() => {this.main()}, 1000);
-    }
-
-    loadStage(file:string){
-        this.data.fetchStage(file,this);
+        setInterval(() => {this.main()}, 1000/60);
     }
 
     main(){
         this.video.clear();
         this.stage.forEach((actor) => {
-            behaviors[actor.name](actor,this);
+            if(typeof behaviors[actor.name] != 'undefined')behaviors[actor.name](actor,this);
         });
+        let text:string = 'X: ' + this.input.poll('mouseX').toString() + ', Y:' + this.input.poll('mouseY').toString();
+        this.video.debugText(text);
     }
 }
 

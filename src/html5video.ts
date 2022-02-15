@@ -29,6 +29,8 @@ class HTML5Video{
 
     clear(){
         this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+        this.ctx.fillStyle = '#000000';
+        this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
     }
     
     drawImage(x:number,y:number,img:string){
@@ -45,6 +47,17 @@ class HTML5Video{
         this.ctx.fillRect(x,y,w,h);
     }
 
+    drawCircle(x:number,y:number,r:number){
+        this.ctx.fillStyle = '#FF0000';
+        this.ctx.beginPath();
+        this.ctx.arc(x,y,r, 0, 2 * Math.PI, false);
+        this.ctx.fillStyle = 'gold';
+        this.ctx.fill();
+        this.ctx.lineWidth = 5;
+        this.ctx.strokeStyle = '#663300';
+        this.ctx.stroke();
+    }
+
     debugText(text:string){
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'top';
@@ -53,6 +66,14 @@ class HTML5Video{
         this.ctx.fillText(text,644,20);
         this.ctx.fillStyle = '#FFFFFF';
         this.ctx.fillText(text,640,16);
+    }
+
+    drawLine(x1:number,y1:number,x2:number,y2:number){
+        this.ctx.strokeStyle = '#AA0000';
+        this.ctx.beginPath();
+        this.ctx.moveTo(x1,y1);
+        this.ctx.lineTo(x2,y2);
+        this.ctx.stroke();
     }
 
     resizeCanvas(){
